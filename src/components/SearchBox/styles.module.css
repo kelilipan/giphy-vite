@@ -1,0 +1,9 @@
+.hidden {
+  visibility: hidden;
+  display: none;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 12px;
+}
