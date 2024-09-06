@@ -1,10 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import css from "./styles.module.css";
-const SearchBox = () => {
+interface SearchBoxProps {
+  onSearch: (keyword: string) => void;
+}
+const SearchBox = ({ onSearch }: SearchBoxProps) => {
   const [keyword, setKeyword] = useState("");
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(keyword);
+    onSearch(keyword);
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
