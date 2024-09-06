@@ -7,20 +7,42 @@ import SearchBox from "./components/SearchBox";
 
 function App() {
   const [result, setResult] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [activePage, setActivePage] = useState("/");
+
   const handleSearchGif = (keyword: string) => {
     //@todo: types
-    searchGif(keyword).then((res) => {
-      setResult(res.data.data);
-    });
+    setLoading(true);
+    searchGif(keyword)
+      .then((res) => {
+        setResult(res.data.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const renderPage = () => {
+    switch (activePage) {
+      case "/":
+        return (
+          <main className="contents">
+            <SearchBox onSearch={handleSearchGif} />
+            {loading ? "Loading..." : <Grids data={result} />}
+          </main>
+        );
+      case "/trending":
+        return <>Trending</>;
+      default:
+        return <>Not found</>;
+        break;
+    }
   };
 
   return (
     <>
-      <Navbar />
-      <main className="contents">
-        <SearchBox onSearch={handleSearchGif} />
-        <Grids data={result} />
-      </main>
+      <Navbar onChange={setActivePage} />
+      {renderPage()}
     </>
   );
 }
